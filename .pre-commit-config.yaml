@@ -1,0 +1,32 @@
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.100.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_providers_lock
+        args:
+          - --args=-platform=linux_amd64
+          - --args=-platform=windows_amd64
+      - id: terraform_validate
+      - id: terraform_tflint
+        args:
+          - --args=--call-module-type=all
+          - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+      - id: no-commit-to-branch
+
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: pretty-format-json
+
+      - id: detect-aws-credentials
+        args: ['--allow-missing-credentials']
+      - id: detect-private-key
