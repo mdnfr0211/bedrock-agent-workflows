@@ -4,6 +4,8 @@ A serverless e-commerce chatbot solution built on AWS, featuring AI-powered orde
 
 ## Architecture Overview
 
+![Architecture Diagram](assets/architecture.png)
+
 This solution implements a complete e-commerce chatbot experience with the following components:
 
 ### Frontend Layer
@@ -49,6 +51,53 @@ This solution implements a complete e-commerce chatbot experience with the follo
 - Multi-agent coordination for complex workflows
 - Serverless architecture for scalability and cost optimization
 
+## Prerequisites
+
+Before deploying this solution, ensure you have:
+
+1. **AWS Bedrock Model Access**: Enable the following models in AWS Bedrock console:
+   - **Nova Pro v1**: Used for the main AI agent orchestration
+   - **Claude Instant**: Used for specific agent tasks
+
+   Navigate to AWS Bedrock console → Model access → Request model access for the required models.
+
+2. **AWS CLI configured** with appropriate permissions
+3. **Terraform installed** (version 1.0 or later)
+
+## Deployment Instructions
+
+### 1. Initial Deployment
+```bash
+# Initialize Terraform
+terraform init
+
+# Review the deployment plan
+terraform plan
+
+# Deploy the infrastructure
+terraform apply
+```
+
+### 2. Post-Deployment Configuration
+After the initial deployment, you'll need to update the Lambda environment variables:
+
+1. The API Gateway endpoint is currently commented out in the Lambda environment variables
+2. After `terraform apply`, hardcode the API Gateway endpoint and run a second deployment:
+   ```bash
+   terraform apply
+   ```
+
+### 3. DynamoDB Product Setup
+The Lambda function expects products in DynamoDB with the following schema:
+- **product_id** (String): Unique identifier for the product
+- **stock_level** (Number): Available inventory count
+
+Add sample products to the DynamoDB table to test the chatbot functionality.
+
 ## Demo Payment Gateway
 
 The current implementation includes a demo payment system using HTTP API Gateway for testing purposes. In production, this would integrate with actual payment processors.
+
+## Output
+
+![Output Screenshot](assets/output.png)
